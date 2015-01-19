@@ -1,3 +1,8 @@
+#### Vim Files
+*~
+*.swp
+*.swo
+#### Python files
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
