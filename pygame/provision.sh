@@ -59,3 +59,6 @@ else
     python3 setup.py build
     python3 setup.py install
 fi    
+
+# add python idle 
+check_install_pkg idle3
