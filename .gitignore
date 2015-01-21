@@ -1,4 +1,8 @@
-#### Vim Files
+#### Vagrant directory
+.vagrant/
+#### IDE directory
+.idea/
+##### Vim Files
 *~
 *.swp
 *.swo
