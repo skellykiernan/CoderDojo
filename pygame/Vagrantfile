@@ -21,6 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |vbox|
     vbox.name = NAME + "_" + VERSION 
     vbox.gui = true
+    vbox.cpus = 2
     vbox.memory = 2048
   end
 end
