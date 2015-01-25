@@ -8,18 +8,8 @@ PYCHARM_DOWNLOAD_URL='http://download-cf.jetbrains.com/python'
 PYCHARM_PKG_NAME=pycharm-community-${PYCHARM_VERSION}
 
 ##############################################################################
-# Install Ubuntu packages
+# Common Functions
 ##############################################################################
-# needed for FFMEG a pygame dependency
-sudo add-apt-repository ppa:jon-severinsson/ffmpeg
-
-apt-get -y update
-# install lightweight desktop only if xorg package not installed
-# using xorg to indicate the presence of desktop
-dpkg -s xorg &> /dev/null || {
-    apt-get -y install --no-install-recommends ubuntu-desktop
-}
-
 # used to check if a package for ubuntu already installed before installing 
 function check_install_pkg {
     dpkg -s $1 &> /dev/null || {
@@ -28,11 +18,37 @@ function check_install_pkg {
     }
 }
 
+##############################################################################
+# Install packages to setup Ubuntu
+##############################################################################
+# needed for FFMEG a pygame dependency
+sudo add-apt-repository ppa:jon-severinsson/ffmpeg
+apt-get -y update
+# install lightweight desktop only if xorg package not installed
+# using xorg to indicate the presence of desktop
+dpkg -s xorg &> /dev/null || {
+    apt-get -y install --no-install-recommends ubuntu-desktop
+}
+
 # prefered terminal
 check_install_pkg gnome-terminal
 
+##############################################################################
+# Install packages related to virtualbox
+# (main to impover the screen resolution !!!)
+##############################################################################
+declare -a virtualbox_pkgs=('virtualbox-guest-dkms' 'virtualbox-guest-utils'
+                            'virtualbox-guest-x11')
+
+for pkg in "${virtualbox_pkgs[@]}"
+do
+   check_install_pkg $pkg
+done
+
+##############################################################################
 # packages required to compile pygame 
 # see http://www.pygame.org/wiki/CompileUbuntu
+##############################################################################
 declare -a pygame_dep_pkgs=("mercurial"           'python3-dev' 
                             'python3-numpy'       'ffmpeg'
                             'libsdl-image1.2-dev' 'libsdl-mixer1.2-dev'
@@ -47,16 +63,10 @@ do
    check_install_pkg $pkg
 done
 
-# virtualbox guest installations(mainly to improve the screen resolution)
-declare -a virtualbox_pkgs=('virtualbox-guest-dkms' 'virtualbox-guest-utils'
-                            'virtualbox-guest-x11')
 
-for pkg in "${virtualbox_pkgs[@]}"
-do
-   check_install_pkg $pkg
-done
-
+##############################################################################
 # download and compile pygame
+##############################################################################
 if [[ -d tools/pygame ]]; then
     echo '++++ Have already download pygame'
 else
@@ -85,7 +95,7 @@ check_install_pkg openjdk-7-jre
 
 # download and unpack PyCharm
 # NOTE: will still need to run the pycharm.sh script in unpacked pycharm bin
-# directory, think that need to use sudo when starting 
+# directory, when configuring ensure that command line is placed in  
 if [[ -d tools/pycharm ]]; then
     echo '++++ Have already downloaded PyCharm'
 else
@@ -94,9 +104,7 @@ else
     cd tools/pycharm
     # downloads the tar.gz linux install file
     wget ${PYCHARM_DOWNLOAD_URL}/${PYCHARM_PKG_NAME}.tar.gz
-    #wget http://download-cf.jetbrains.com/python/pycharm-community-4.0.4.tar.gz
     tar xzvf ${PYCHARM_PKG_NAME}.tar.gz
     rm ${PYCHARM_PKG_NAME}.tar.gz
     cd ..
 fi
-
