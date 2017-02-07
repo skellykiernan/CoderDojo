@@ -1,0 +1,7 @@
+
+References
+Overview of HDD -> https://en.wikipedia.org/wiki/Hard_disk_drive
+Format used on disks -> https://en.wikipedia.org/wiki/Advanced_Format
+Motor Controller -> http://robotshop.com/letsmakerobots/node/2898 and http://bldc.wikidot.com/p-esc-motor
+
+
