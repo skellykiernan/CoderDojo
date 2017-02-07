@@ -2,6 +2,7 @@
 .vagrant/
 #### IDE directory
 .idea/
+.metadata/
 ##### Vim Files
 *~
 *.swp
